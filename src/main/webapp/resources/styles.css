@@ -1,0 +1,9 @@
+@charset "ISO-8859-1";
+
+body {
+	background-color: #d0f5da;
+}
+.tbl{
+	float: left;
+	margin-left: 50px;
+}

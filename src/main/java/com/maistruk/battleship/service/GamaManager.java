@@ -13,7 +13,7 @@ import com.maistruk.battleship.model.Ship;
 @Service
 public class GamaManager {
 
-    public Fleet generateFlot(List<Field> fields) {
+    public Fleet generateFleet(List<Field> fields) {
         List<Integer> places = new ArrayList<Integer>();
         Ship ship = new Ship();
         List<Field> shipFields = new ArrayList<>();

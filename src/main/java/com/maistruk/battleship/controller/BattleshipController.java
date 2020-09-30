@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.maistruk.battleship.model.ComputerAI;
+import com.maistruk.battleship.model.TableCreater;
 import com.maistruk.battleship.model.Field;
+import com.maistruk.battleship.model.FieldChecker;
 import com.maistruk.battleship.model.Fleet;
 import com.maistruk.battleship.service.GamaManager;
 
@@ -53,18 +55,66 @@ public class BattleshipController {
                 System.out.println(field);
             }
         }
-        Fleet myFleet = gameManager.generateFlot(myFields);
+        List<Field> enemyHits = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            for (int j = 1; j <= 7; j++) {
+                String parameter = "enemyHit_" + gameManager.getLatter(i) + j;
+                Boolean value;
+                if(request.getParameter(parameter) != null) {
+                    value = true;
+                } else {
+                    value = false;
+                }
+                Field field = new Field(parameter, value);
+                enemyHits.add(field);
+           //     System.out.println(field);
+            }
+        }
+        Fleet myFleet = gameManager.generateFleet(myFields);
+        FieldChecker myFieldChecker = new FieldChecker();
+        myFieldChecker.setFleet(myFleet);
+        myFieldChecker.setFields(enemyHits);
+        myFieldChecker.setShipsFields(gameManager.generateFleet(myFields).getAllFields());
+        session.setAttribute("myFieldChecker", myFieldChecker);
+        TableCreater myTableCreater = new TableCreater();
+        myTableCreater.setFieldChecker(myFieldChecker);
+        session.setAttribute("myTableCreater", myTableCreater);
         session.setAttribute("myFleet", myFleet);
+        
+        
+        
+        List<Field> myHits = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            for (int j = 1; j <= 7; j++) {
+                String parameter = "myHit_" + gameManager.getLatter(i) + j;
+                Boolean value;
+                if(request.getParameter(parameter) != null) {
+                    value = true;
+                } else {
+                    value = false;
+                }
+                Field field = new Field(parameter, value);
+                myHits.add(field);
+           //     System.out.println(field);
+            }
+        }
         List<Field> enemyFields = gameManager.generateShips();
-        Fleet enemyFleet = gameManager.generateFlot(enemyFields);
+        Fleet enemyFleet = gameManager.generateFleet(enemyFields);
+        FieldChecker enemyFieldChecker = new FieldChecker();
+        enemyFieldChecker.setFleet(enemyFleet);
+        enemyFieldChecker.setFields(myHits);
+        enemyFieldChecker.setShipsFields(enemyFields);
+        TableCreater enemyTableCreater = new TableCreater();
+        enemyTableCreater.setFieldChecker(enemyFieldChecker);
+        session.setAttribute("enemyTableCreater", enemyTableCreater);
         session.setAttribute("enemyFleet", enemyFleet);
+        session.setAttribute("enemyFieldChecker", enemyFieldChecker);
         
         ComputerAI computerAI = new ComputerAI();
         computerAI.setMyFleet(myFleet);
-       // computerAI.addFleet(myFleet);
         session.setAttribute("computerAI", computerAI);
 
-        ModelAndView mav = new ModelAndView("game");
+        ModelAndView mav = new ModelAndView("game2");
         return mav;
     }
     
@@ -82,21 +132,36 @@ public class BattleshipController {
                 }
                 Field field = new Field(parameter, value);
                 myHits.add(field);
-                System.out.println(field);
+           //     System.out.println(field);
             }
         }
         Fleet myFleet =(Fleet) session.getAttribute("myFleet");
-        Fleet enemyFleet =(Fleet) session.getAttribute("enemyFleet");
         ComputerAI computerAI = (ComputerAI) session.getAttribute("computerAI");
+        FieldChecker myFieldChecker = (FieldChecker)session.getAttribute("myFieldChecker");
+        myFieldChecker.setFields(computerAI.getEnemyHits());
         computerAI.enemyHit();
         myFleet.destroyMyShip(computerAI.getEnemyHits());
+        
+        
+        Fleet enemyFleet =(Fleet) session.getAttribute("enemyFleet");
         enemyFleet.destroyEnemyShip(myHits);
+        FieldChecker enemyFieldChecker = (FieldChecker)session.getAttribute("enemyFieldChecker");
+        enemyFieldChecker.setFields(myHits);
+        
         session.setAttribute("myFleet", myFleet);
         session.setAttribute("enemyFleet", enemyFleet);
         session.setAttribute("myHits", myHits);
         session.setAttribute("computerAI", computerAI);
+        System.out.println(enemyFleet.getShips().size());
+        if(enemyFleet.getShips().size() == 0) {
+            session.setAttribute("info", "You Win!");
+            return new ModelAndView("finish");
+        }
+        if(myFleet.getShips().size() == 0) {
+            session.setAttribute("info", "You Lose!");
+            return new ModelAndView("finish");
+        }
 
-        ModelAndView mav = new ModelAndView("game");
-        return mav;
+        return new ModelAndView("game2");
     }
 }

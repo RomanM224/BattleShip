@@ -59,7 +59,7 @@
 	</div>
 	
 	
-	<div class="tbl">
+<%-- 	<div class="tbl">
 	<table border="1" cellpadding="2">
 	My Ships
 	<tr>
@@ -87,7 +87,7 @@
 	<td>G</td><td><input type="checkbox" name="my_g1" <% out.print(myFleet.ifExistField("my_g1")); %>></td><td><input type="checkbox" name="my_g2" <% out.print(myFleet.ifExistField("my_g2")); %>></td><td><input type="checkbox" name="my_g3" <% out.print(myFleet.ifExistField("my_g3")); %>></td><td><input type="checkbox" name="my_g4" <% out.print(myFleet.ifExistField("my_g4")); %>></td><td><input type="checkbox" name="my_g5" <% out.print(myFleet.ifExistField("my_g5")); %>></td><td><input type="checkbox" name="my_g6" <% out.print(myFleet.ifExistField("my_g6")); %>></td><td><input type="checkbox" name="my_g7" <% out.print(myFleet.ifExistField("my_g7")); %>></td>
 	</tr>
 	</table>
-	</div>
+	</div> --%>
 	
 	<div class="tbl">
 	<table border="1" cellpadding="2">
@@ -144,7 +144,7 @@
 	<% } %>
 	</div>
 	
-	<div class="tbl">
+<%-- 	<div class="tbl">
  	<table border="1" cellpadding="2">
  	Enemy Ships
 	<tr>
@@ -172,9 +172,9 @@
 	<td>G</td><td><input type="checkbox" name="enemy_g1" <% out.print(enemyFleet.ifExistField("enemy_g1")); %>></td><td><input type="checkbox" name="enemy_g2" <% out.print(enemyFleet.ifExistField("enemy_g2")); %>></td><td><input type="checkbox" name="enemy_g3" <% out.print(enemyFleet.ifExistField("enemy_g3")); %>></td><td><input type="checkbox" name="enemy_g4" <% out.print(enemyFleet.ifExistField("enemy_g4")); %>></td><td><input type="checkbox" name="enemy_g5" <% out.print(enemyFleet.ifExistField("enemy_g5")); %>></td><td><input type="checkbox" name="enemy_g6" <% out.print(enemyFleet.ifExistField("enemy_g6")); %>></td><td><input type="checkbox" name="enemy_g7" <% out.print(enemyFleet.ifExistField("enemy_g7")); %>></td>
 	</tr>
 	</table>
-	</div>
+	</div> --%>
 	
-	<input type="submit" value="Start Game">
+	<input type="submit" value="Hit">
 	</form>
 
 </body>

@@ -6,8 +6,7 @@ import java.util.List;
 public class Fleet {
 
     private List<Ship> ships;
-
-    public List<Ship> getShips() {
+    public  List<Ship> getShips() {
         return ships;
     }
 
@@ -48,7 +47,7 @@ public class Fleet {
             for(Field shipField : ship.getShipFields()) {
                 for(Field fild : fileds) {
                     String str1 = shipField.getName().substring(6, 8);
-                    String str2 = fild.getName().substring(6, 8);
+                    String str2 = fild.getName().substring(7, 9);
                     if(str1.equals(str2) && shipField.getValue() == true && fild.getValue() == true) {
                         destroyField = shipField;
                         shipNum = i;
@@ -73,7 +72,7 @@ public class Fleet {
             for(Field shipField : ship.getShipFields()) {
                 for(Field fild : fileds) {
                     String myShip = shipField.getName().substring(3, 5);
-                    String enemyHit = fild.getName().substring(9, 11);
+                    String enemyHit = fild.getName().substring(10, 12);
                     if(myShip.equals(enemyHit) && shipField.getValue() == true && fild.getValue() == true) {
                         destroyField = shipField;
                         shipNum = i;
@@ -88,6 +87,17 @@ public class Fleet {
         if(sh.getShipFields().size() == 0) {
             ships.remove(sh);
         }
+    }
+    
+    public int getShipFieldsBySize(int shipSize) {
+        for(Ship ship : ships) {
+            if(ship.getShipSize() == shipSize) {
+                return ship.getShipFields().size();
+            }
+        }
+        
+        
+        return 0;
     }
 
 }

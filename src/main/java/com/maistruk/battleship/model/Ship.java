@@ -5,6 +5,15 @@ import java.util.List;
 public class Ship {
     
     private List<Field> shipFields;
+    private int shipSize;
+
+    public int getShipSize() {
+        return shipSize;
+    }
+
+    public void setShipSize(int shipSize) {
+        this.shipSize = shipSize;
+    }
 
     public List<Field> getShipFields() {
         return shipFields;
